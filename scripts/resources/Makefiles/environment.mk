@@ -17,9 +17,10 @@ MAVEN_OVERLAY_DIR?=${EROOT}/var/lib/java-ebuilder/maven
 POMDIR?=${EROOT}/var/lib/java-ebuilder/poms
 
 # helpers
-TSH=${EROOT}/usr/lib/java-ebuilder/bin/tree.sh
-TSH_WRAPPER=${EROOT}/usr/lib/java-ebuilder/bin/tree-wrapper.sh
-FILL_CACHE=${EROOT}/usr/lib/java-ebuilder/bin/fill-cache
+HELPERS_ROOT?=${EROOT}/usr/lib/java-ebuilder/bin
+TSH=${HELPERS_ROOT}/tree.sh
+TSH_WRAPPER=${HELPERS_ROOT}/tree-wrapper.sh
+FILL_CACHE=${HELPERS_ROOT}/fill-cache
 
 # stage
 STAGE1_DIR?=${EROOT}/var/lib/java-ebuilder/stage1/

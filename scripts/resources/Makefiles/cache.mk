@@ -6,7 +6,7 @@ ${PRE_STAGE1_CACHE}.raw: ${CACHE_TIMESTAMP}
 	for repo in ${REPOS}; do\
 		args="$${args} -t $${repo}";\
 	done;\
-	java-ebuilder $${args} --cache-file "$@"
+	${JAVA_EBUILDER} $${args} --cache-file "$@"
 
 ${PRE_STAGE1_CACHE}: ${PRE_STAGE1_CACHE}.raw
 	${FILL_CACHE} --dst-cache "$@" --src-cache "$^" --LUT "${LUTFILE}"
@@ -16,7 +16,7 @@ ${POST_STAGE1_CACHE}.raw: ${STAGE2_MAKEFILE}
 	for repo in ${REPOS}; do\
 		args="$${args} -t $${repo}";\
 	done;\
-	java-ebuilder $${args} --cache-file "$@"
+	${JAVA_EBUILDER} $${args} --cache-file "$@"
 
 ${POST_STAGE1_CACHE}: ${POST_STAGE1_CACHE}.raw
 	${FILL_CACHE} --dst-cache "$@" --src-cache "$^" --LUT "${LUTFILE}"

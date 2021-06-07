@@ -1,0 +1,2 @@
+MAVEN_ARTS="com.google.guava:guava:30.1.1-jre"
+EBUILD_PATH="app-maven/guava/guava-30.1.1.ebuild"

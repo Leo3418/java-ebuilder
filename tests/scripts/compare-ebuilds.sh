@@ -19,7 +19,7 @@ preprocess_ebuild() {
 # - Differences in white space are ignored
 # - Preprocessing done by the 'preprocess_ebuild' function is applied
 compare_ebuilds() {
-    diff -w --color=always \
+    diff -w --color=always -u \
         <(preprocess_ebuild < "${EXPECTED}") \
         <(preprocess_ebuild < "${ACTUAL}")
 }

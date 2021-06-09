@@ -12,5 +12,7 @@ run_single_ebuild_test() {
 
     movl_mock build
     compare_ebuilds
+    cmp_result=$?
     movl_mock clean
+    return ${cmp_result}
 }

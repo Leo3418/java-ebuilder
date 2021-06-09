@@ -54,6 +54,7 @@ init_tmpdir() {
 
 # Run test for each test case specified in TEST_CASES_DIR.
 run_tests() {
+    overall_result=0
     for test_case in "${TEST_CASES_DIR}"/*; do
         # Read in the MAVEN_ARTS and EBUILD_PATH environment variables
         source "${test_case}"
@@ -61,7 +62,10 @@ run_tests() {
         # Update the config file with the new MAVEN_ARTS value
         create_config
         run_single_ebuild_test
+        test ${overall_result} -eq 0 -a $? -eq 0
+        overall_result=$?
     done
+    return ${overall_result}
 }
 
 # Perform tear-down tasks.
@@ -72,7 +76,9 @@ tear_down() {
 main() {
     init_tmpdir
     run_tests
+    result=$?
     tear_down
+    return ${result}
 }
 
 main

@@ -78,6 +78,12 @@ main() {
     run_tests
     result=$?
     tear_down
+    echo
+    if [[ ${result} -eq 0 ]]; then
+        echo "All tests passed"
+    else
+        echo "Some tests failed -- Please check the diffs above for details"
+    fi
     return ${result}
 }
 

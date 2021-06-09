@@ -36,5 +36,5 @@ movl_mock() {
         POMDIR="${POMDIR}" \
         STAGE1_DIR="${STAGE1_DIR}" \
         STAGE2_MAKEFILE="${STAGE2_MAKEFILE}" \
-        make -f "${MAKEFILE}" "$@"
+        make -f "${MAKEFILE}" "$@" > /dev/null 2>&1
 }

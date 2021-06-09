@@ -49,7 +49,7 @@ init_tmpdir() {
         "${STAGE1_DIR}"
 
     # Copy the basic metadata files required to create a functional overlay
-    cp -r "${SRC_ROOT}/maven"/* ${MAVEN_OVERLAY_DIR}
+    cp -r "${SRC_ROOT}/maven"/* "${MAVEN_OVERLAY_DIR}"
 }
 
 # Run test for each test case specified in TEST_CASES_DIR.

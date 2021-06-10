@@ -1,0 +1,2 @@
+MAVEN_ARTS="com.h2database:h2:1.4.200"
+EBUILD_PATH="app-maven/h2/h2-1.4.200.ebuild"

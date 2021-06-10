@@ -10,7 +10,7 @@ run_single_ebuild_test() {
     EXPECTED="${EXPECTED_EBUILDS_DIR}/${EBUILD_PATH}"
     ACTUAL="${MAVEN_OVERLAY_DIR}/${EBUILD_PATH}"
 
-    movl_mock build
+    movl_mock stage2
     compare_ebuilds
     cmp_result=$?
     movl_mock clean

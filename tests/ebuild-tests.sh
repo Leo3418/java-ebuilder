@@ -35,11 +35,11 @@ HELP="\
 Usage: $0 [FILE]...
 Run the test case specified in each FILE.
 Each FILE should define in Bash syntax:
-- The MAVEN_ARTS variable
-- An EBUILD_PATHS variable containing a whitespace-separated list of paths to
-  ebuilds to be verified relative to the overlay's root
-- Optionally, an EXPECTED_EBUILDS_DIR variable to override its default value
-  (${EXPECTED_EBUILDS_DIR})
+- The MAVEN_ARTS environment variable
+- An EBUILD_PATHS environment variable containing a whitespace-separated list
+  of paths to ebuilds to be verified relative to the overlay's root
+- Optionally, a local EXPECTED_EBUILDS_DIR variable to override its default
+  value (${EXPECTED_EBUILDS_DIR})
 
 With no FILE, run all test cases under ${TEST_CASES_DIR}.
 

@@ -34,6 +34,7 @@ movl_mock() {
         MAVEN_ARTS="${MAVEN_ARTS}" \
         MAVEN_OVERLAY_DIR="${MAVEN_OVERLAY_DIR}" \
         POMDIR="${POMDIR}" \
+        REPOS="${REPOS}" \
         STAGE1_DIR="${STAGE1_DIR}" \
         STAGE2_MAKEFILE="${STAGE2_MAKEFILE}" \
         make -f "${MAKEFILE}" "$@" > /dev/null 2>&1

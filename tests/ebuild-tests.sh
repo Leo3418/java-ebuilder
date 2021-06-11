@@ -70,7 +70,7 @@ init_tmpdir() {
 
 # Run test for each test case listed in the positional parameters.
 run_tests() {
-    overall_result=0
+    local overall_result=0
     for test_case in "$@"; do
         # Read in the MAVEN_ARTS and EBUILD_PATHS environment variables
         source "${test_case}"
@@ -79,7 +79,7 @@ run_tests() {
         create_config
         run_single_ebuild_test
         test ${overall_result} -eq 0 -a $? -eq 0
-        overall_result=$?
+        local overall_result=$?
     done
     return ${overall_result}
 }
@@ -104,7 +104,7 @@ main() {
         # Run specified test cases
         run_tests "$@"
     fi
-    result=$?
+    local result=$?
     tear_down
     echo
     if [[ ${result} -eq 0 ]]; then

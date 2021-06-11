@@ -68,16 +68,25 @@ init_tmpdir() {
     cp -r "${SRC_ROOT}/maven"/* "${MAVEN_OVERLAY_DIR}"
 }
 
+# Run a single test case specified by the first positional parameter.  By using
+# a standalone function to execute each test individually, test cases can
+# override variables with the 'local' shell built-in without affecting other
+# test cases.
+run_test() {
+    # Read in the MAVEN_ARTS and EBUILD_PATHS environment variables, and any
+    # other local variables
+    source "$1"
+    echo "Testing ${MAVEN_ARTS}..."
+    # Update the config file with the new MAVEN_ARTS value
+    create_config
+    run_single_ebuild_test
+}
+
 # Run test for each test case listed in the positional parameters.
 run_tests() {
     local overall_result=0
     for test_case in "$@"; do
-        # Read in the MAVEN_ARTS and EBUILD_PATHS environment variables
-        source "${test_case}"
-        echo "Testing ${MAVEN_ARTS}..."
-        # Update the config file with the new MAVEN_ARTS value
-        create_config
-        run_single_ebuild_test
+        run_test "${test_case}"
         test ${overall_result} -eq 0 -a $? -eq 0
         local overall_result=$?
     done

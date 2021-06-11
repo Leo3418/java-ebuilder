@@ -1,0 +1,5 @@
+# Define a TEST_OVERLAY environment variable whose value is the directory name
+# of the overlay to be used for the test, then source this file in a test case
+# file to add the specified overlay to Portage repositories used in the test.
+
+local REPOS=$(realpath "${SRC_ROOT}/tests/resources/test-overlays/${TEST_OVERLAY}")

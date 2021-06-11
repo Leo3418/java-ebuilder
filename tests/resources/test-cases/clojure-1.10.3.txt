@@ -1,2 +1,2 @@
 MAVEN_ARTS="org.clojure:clojure:1.10.3"
-EBUILD_PATH="app-maven/clojure/clojure-1.10.3.ebuild"
+EBUILD_PATHS="app-maven/clojure/clojure-1.10.3.ebuild"

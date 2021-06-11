@@ -1,0 +1,9 @@
+# A test case with multiple Maven artifacts and multiple ebuild outputs
+MAVEN_ARTS="\
+    org.apache.commons:commons-collections4:4.4 \
+    org.apache.commons:commons-lang3:3.12.0 \
+"
+EBUILD_PATHS="\
+    app-maven/commons-collections4/commons-collections4-4.4.ebuild \
+    dev-java/commons-lang3/commons-lang3-3.12.0.ebuild \
+"

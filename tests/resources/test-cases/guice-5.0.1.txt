@@ -1,2 +1,2 @@
 MAVEN_ARTS="com.google.inject:guice:5.0.1"
-EBUILD_PATH="app-maven/guice/guice-5.0.1.ebuild"
+EBUILD_PATHS="app-maven/guice/guice-5.0.1.ebuild"

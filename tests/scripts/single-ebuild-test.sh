@@ -1,17 +1,22 @@
 #!/usr/bin/env bash
 
-# Create an ebuild for MAVEN_ARTS, and test if the ebuild java-ebuilder created
-# for it is equivalent to the expected output.
+# Create ebuild(s) for MAVEN_ARTS, and test if the ebuild(s) java-ebuilder
+# created for it is equivalent to the expected output.
 
 source "${SRC_ROOT}/tests/scripts/compare-ebuilds.sh"
 source "${SRC_ROOT}/tests/scripts/movl-mock.sh"
 
 run_single_ebuild_test() {
-    EXPECTED="${EXPECTED_EBUILDS_DIR}/${EBUILD_PATH}"
-    ACTUAL="${MAVEN_OVERLAY_DIR}/${EBUILD_PATH}"
-
     movl_mock stage2
-    compare_ebuilds
+    for ebuild in ${EBUILD_PATHS}; do
+        # Remove leading and trailing white space
+        ebuild=$(sed \
+            -e 's/^[[:space:]]*//' \
+            -e 's/[[:space:]]*$//' <<< "${ebuild}")
+        EXPECTED="${EXPECTED_EBUILDS_DIR}/${ebuild}"
+        ACTUAL="${MAVEN_OVERLAY_DIR}/${ebuild}"
+        compare_ebuilds
+    done
     cmp_result=$?
     movl_mock clean
     return ${cmp_result}

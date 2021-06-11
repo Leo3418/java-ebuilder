@@ -52,10 +52,10 @@ init_tmpdir() {
     cp -r "${SRC_ROOT}/maven"/* "${MAVEN_OVERLAY_DIR}"
 }
 
-# Run test for each test case specified in TEST_CASES_DIR.
+# Run test for each test case listed in the positional parameters.
 run_tests() {
     overall_result=0
-    for test_case in "${TEST_CASES_DIR}"/*; do
+    for test_case in "$@"; do
         # Read in the MAVEN_ARTS and EBUILD_PATHS environment variables
         source "${test_case}"
         echo "Testing ${MAVEN_ARTS}..."
@@ -75,7 +75,13 @@ tear_down() {
 
 main() {
     init_tmpdir
-    run_tests
+    if [[ $# -eq 0 ]]; then
+        # Run all test cases
+        run_tests "${TEST_CASES_DIR}"/*;
+    else
+        # Run specified test cases
+        run_tests "$@"
+    fi
     result=$?
     tear_down
     echo
@@ -87,4 +93,4 @@ main() {
     return ${result}
 }
 
-main
+main "$@"

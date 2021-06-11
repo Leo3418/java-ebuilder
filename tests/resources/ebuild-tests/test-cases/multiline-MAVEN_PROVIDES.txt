@@ -1,0 +1,4 @@
+local TEST_REPOS="multiline-MAVEN_PROVIDES"
+
+MAVEN_ARTS="org.jetbrains.kotlinx.spark:kotlin-spark-api-common:1.0.0-preview2"
+EBUILD_PATHS="app-maven/kotlin-spark-api-common/kotlin-spark-api-common-1.0.0.ebuild"

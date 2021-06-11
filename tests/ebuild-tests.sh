@@ -30,6 +30,22 @@ EXPECTED_EBUILDS_DIR="${SRC_ROOT}/tests/resources/expected-ebuilds"
 # The directory used to store temporary test files
 TEST_TMPDIR="$(mktemp -d)"
 
+# The help message
+HELP="\
+Usage: $0 [FILE]...
+Run the test case specified in each FILE.
+Each FILE should define in Bash syntax:
+- The MAVEN_ARTS variable
+- An EBUILD_PATHS variable containing a whitespace-separated list of paths to
+  ebuilds to be verified relative to the overlay's root
+- Optionally, an EXPECTED_EBUILDS_DIR variable to override its default value
+  (${EXPECTED_EBUILDS_DIR})
+
+With no FILE, run all test cases under ${TEST_CASES_DIR}.
+
+Options:
+      --help    display this help and exit"
+
 source "${SRC_ROOT}/tests/scripts/create-config.sh"
 source "${SRC_ROOT}/tests/scripts/single-ebuild-test.sh"
 
@@ -74,6 +90,12 @@ tear_down() {
 }
 
 main() {
+    if grep -q -Fw -e '--help' <<< "$@"; then
+        echo "${HELP}"
+        tear_down
+        exit 0
+    fi
+
     init_tmpdir
     if [[ $# -eq 0 ]]; then
         # Run all test cases

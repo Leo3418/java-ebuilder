@@ -1,0 +1,10 @@
+# Use an overlay containing dev-java/kotlin-common-bin, which has a multi-line
+# MAVEN_PROVIDES definition, generate an ebuild for a Maven artifact that
+# depends on org.jetbrains.kotlin:kotlin-stdlib, and see if the ebuild depends
+# on dev-java/kotlin-common-bin.
+
+TEST_OVERLAY="kotlin-mock-MAVEN_PROVIDES"
+source "${SRC_ROOT}/tests/resources/test-overlays/testcaserc"
+
+MAVEN_ARTS="com.squareup.okhttp3:okhttp:4.8.1"
+EBUILD_PATHS="app-maven/okhttp/okhttp-4.8.1.ebuild"

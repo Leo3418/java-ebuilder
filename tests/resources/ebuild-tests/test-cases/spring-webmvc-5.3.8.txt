@@ -1,0 +1,2 @@
+MAVEN_ARTS="org.springframework:spring-webmvc:5.3.8"
+EBUILD_PATHS="app-maven/spring-webmvc/spring-webmvc-5.3.8.ebuild"

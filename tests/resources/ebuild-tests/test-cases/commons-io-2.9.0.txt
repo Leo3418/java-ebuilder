@@ -1,0 +1,2 @@
+MAVEN_ARTS="commons-io:commons-io:2.9.0"
+EBUILD_PATHS="app-maven/commons-io/commons-io-2.9.0.ebuild"

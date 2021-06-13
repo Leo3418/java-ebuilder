@@ -78,8 +78,8 @@ init_tmpdir() {
 run_test() {
     # Read in the MAVEN_ARTS and EBUILD_PATHS environment variables, and any
     # other local variables
+    echo "Running test case $1..."
     source "$1"
-    echo "Testing ${MAVEN_ARTS}..."
     # Update the config file with the new MAVEN_ARTS value
     create_config
     run_single_ebuild_test

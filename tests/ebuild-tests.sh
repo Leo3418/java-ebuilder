@@ -28,7 +28,7 @@ TEST_TMPDIR="$(mktemp -d)"
 # The help message
 HELP="\
 Usage: $0 [FILE]...
-Run the test case specified in each FILE.
+Run ebuild comparison test case specified in each FILE.
 Each FILE should define in Bash syntax:
 - The MAVEN_ARTS environment variable
 - An EBUILD_PATHS environment variable containing a whitespace-separated list
@@ -157,7 +157,7 @@ main() {
     if [[ ${result} -eq 0 ]]; then
         echo "All tests passed"
     else
-        echo "Some tests failed -- Please check the diffs above for details"
+        echo "Some tests failed -- Please check the output above for details"
     fi
     return ${result}
 }

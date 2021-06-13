@@ -96,20 +96,55 @@ tear_down() {
     rm -rf "${TEST_TMPDIR}"
 }
 
+# Parse command-line options, and set environment variables that control how
+# this script will run accordingly.
+parse_options() {
+    # Initialize variables with default values
+    SHOW_HELP=false
+    VERBOSE=false
+    while :
+    do
+        case "$1" in
+        --help)
+            SHOW_HELP=true
+            # No need to continue parsing remaining options
+            break
+            ;;
+        --)
+            # End of option flags
+            shift
+            break
+            ;;
+        -*)
+            echo "$0: unrecognized option '$1'"
+            echo "Try '$0 --help' for more information."
+            exit 1
+            ;;
+        *)
+            # End of all command-line options
+            break
+            ;;
+        esac
+    done
+    TEST_CASES_TO_RUN=("$@")
+}
+
 main() {
-    if grep -q -Fw -e '--help' <<< "$@"; then
+    parse_options "$@"
+
+    if "${SHOW_HELP}"; then
         echo "${HELP}"
         tear_down
         exit 0
     fi
 
     init_tmpdir
-    if [[ $# -eq 0 ]]; then
+    if [[ "${#TEST_CASES_TO_RUN[@]}" -eq 0 ]]; then
         # Run all test cases
         run_tests "${TEST_CASES_DIR}"/*;
     else
         # Run specified test cases
-        run_tests "$@"
+        run_tests "${TEST_CASES_TO_RUN[@]}"
     fi
     local result=$?
     tear_down

@@ -36,15 +36,16 @@
                 <version>3.0.0</version>
                 <executions>
                     <execution>
+                        <id>ebuild-tests</id>
                         <goals>
                             <goal>exec</goal>
                         </goals>
+                        <configuration>
+                            <executable>./ebuild-tests.sh</executable>
+                            <workingDirectory>tests</workingDirectory>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <executable>./ebuild-tests.sh</executable>
-                    <workingDirectory>tests</workingDirectory>
-                </configuration>
             </plugin>
         </plugins>
     </build>

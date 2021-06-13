@@ -7,9 +7,10 @@ source "${SRC_ROOT}/tests/scripts/compare-ebuilds.sh"
 source "${SRC_ROOT}/tests/scripts/movl-mock.sh"
 
 run_single_ebuild_test() {
-    local portage_repos=$(portageq get_repo_path / $(portageq get_repos /))
+    local portage_repos
+    portage_repos=$(portageq get_repo_path / $(portageq get_repos /))
     # Change new lines to spaces
-    local portage_repos=$(tr '\n' ' ' <<< "${portage_repos}")
+    portage_repos=$(tr '\n' ' ' <<< "${portage_repos}")
     local REPOS="${portage_repos} ${REPOS}"
     movl_mock stage2
     for ebuild in ${EBUILD_PATHS}; do

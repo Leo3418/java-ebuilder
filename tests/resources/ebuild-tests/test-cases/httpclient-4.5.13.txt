@@ -1,0 +1,2 @@
+MAVEN_ARTS="org.apache.httpcomponents:httpclient:4.5.13"
+EBUILD_PATHS="app-maven/httpclient/httpclient-4.5.13.ebuild"

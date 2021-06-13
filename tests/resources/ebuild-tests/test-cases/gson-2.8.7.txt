@@ -1,0 +1,2 @@
+MAVEN_ARTS="com.google.code.gson:gson:2.8.7"
+EBUILD_PATHS="app-maven/gson/gson-2.8.7.ebuild"

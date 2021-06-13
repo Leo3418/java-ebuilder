@@ -22,20 +22,25 @@ MAKEFILE="${MAKEFILE_DIR}/Makefile"
 
 # Mock the 'movl' helper script.
 movl_mock() {
-    # Copy environment variables in the current shell into the new environment
-    # for 'make' invocation
-    env \
-        CACHEDIR="${CACHEDIR}" \
-        CONFIG="${CONFIG}" \
-        HELPERS_ROOT="${HELPERS_ROOT}" \
-        JAVA_EBUILDER="${JAVA_EBUILDER}" \
-        LUTFILE="${LUTFILE}" \
-        MAKEFILE_DIR="${MAKEFILE_DIR}" \
-        MAVEN_ARTS="${MAVEN_ARTS}" \
-        MAVEN_OVERLAY_DIR="${MAVEN_OVERLAY_DIR}" \
-        POMDIR="${POMDIR}" \
-        REPOS="${REPOS}" \
-        STAGE1_DIR="${STAGE1_DIR}" \
-        STAGE2_MAKEFILE="${STAGE2_MAKEFILE}" \
-        make -f "${MAKEFILE}" "$@" > /dev/null 2>&1
+    if ! "${VERBOSE}"; then
+        local output_redirect=" > /dev/null 2>&1"
+    fi
+    # Assemble a command like
+    # env NAME="${VALUE}" make -f "${MAKEFILE}" "$@" "${output_redirect}"
+    # to copy environment variables in the current shell into the new
+    # environment for 'make' invocation
+    eval "env \
+        CACHEDIR=\"${CACHEDIR}\" \
+        CONFIG=\"${CONFIG}\" \
+        HELPERS_ROOT=\"${HELPERS_ROOT}\" \
+        JAVA_EBUILDER=\"${JAVA_EBUILDER}\" \
+        LUTFILE=\"${LUTFILE}\" \
+        MAKEFILE_DIR=\"${MAKEFILE_DIR}\" \
+        MAVEN_ARTS=\"${MAVEN_ARTS}\" \
+        MAVEN_OVERLAY_DIR=\"${MAVEN_OVERLAY_DIR}\" \
+        POMDIR=\"${POMDIR}\" \
+        REPOS=\"${REPOS}\" \
+        STAGE1_DIR=\"${STAGE1_DIR}\" \
+        STAGE2_MAKEFILE=\"${STAGE2_MAKEFILE}\"" \
+        make -f "${MAKEFILE}" "$@" "${output_redirect}"
 }

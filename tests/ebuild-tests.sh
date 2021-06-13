@@ -42,6 +42,7 @@ Each FILE should define in Bash syntax:
 With no FILE, run all test cases under ${TEST_CASES_DIR}.
 
 Options:
+  -v, --verbose print the output of java-ebuilder during test execution
       --help    display this help and exit"
 
 source "${SRC_ROOT}/tests/scripts/create-config.sh"
@@ -109,6 +110,10 @@ parse_options() {
             SHOW_HELP=true
             # No need to continue parsing remaining options
             break
+            ;;
+        -v | --verbose)
+            VERBOSE=true
+            shift
             ;;
         --)
             # End of option flags

@@ -1,0 +1,2 @@
+MAVEN_ARTS="org.apache.commons:commons-collections4:4.4"
+EBUILD_PATHS="app-maven/commons-collections4/commons-collections4-4.4.ebuild"

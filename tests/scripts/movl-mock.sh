@@ -3,7 +3,7 @@
 # Mock the behavior of the 'movl' script installed with java-ebuilder.
 
 # The classpath used to run java-ebuilder
-CLASSPATH="${SRC_ROOT}/target/classes"
+CLASSPATH="${CLASSPATH:-"${SRC_ROOT}/target/classes"}"
 
 # The command to run java-ebuilder
 JAVA_EBUILDER="java -classpath ${CLASSPATH} org.gentoo.java.ebuilder.Main" 

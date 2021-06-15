@@ -22,6 +22,9 @@ TEST_CASES_DIR="${TEST_CASES_DIR:-"${SRC_ROOT}/tests/resources/ebuild-tests/test
 # Portage overlay.
 EXPECTED_EBUILDS_DIR="${EXPECTED_EBUILDS_DIR:-"${SRC_ROOT}/tests/resources/ebuild-tests/expected-ebuilds/default"}"
 
+# The directory containing ebuild repositories used by test cases
+TEST_REPOS_DIR="${TEST_REPOS_DIR:-"${SRC_ROOT}/tests/resources/repos"}"
+
 # The directory used to store temporary test files
 TEST_TMPDIR="$(mktemp -d)"
 
@@ -33,9 +36,11 @@ Each FILE should define in Bash syntax:
 - The MAVEN_ARTS environment variable
 - An EBUILD_PATHS environment variable containing a whitespace-separated list
   of paths to ebuilds to be verified relative to the overlay's root
-- Optionally, a local REPOS variable containing a whitespace-separated list of
-  paths to extra overlays to be used during the test in addition to the Portage
-  repositories used by the current system
+- Optionally, a local TEST_REPOS variable containing a whitespace-separated
+  list of ebuild repositories that should be used by the test case, in
+  addition to the repositories used by the current system, where each
+  repository is identified by the name of the directory containing it under
+  ${TEST_REPOS_DIR}
 - Optionally, a local EXPECTED_EBUILDS_DIR variable to override its default
   value (${EXPECTED_EBUILDS_DIR})
 

@@ -35,7 +35,8 @@ run_single_ebuild_test() {
         local ebuild=$(sed \
             -e 's/^[[:space:]]*//' \
             -e 's/[[:space:]]*$//' <<< "${ebuild}")
-        local EXPECTED="${EXPECTED_EBUILDS_DIR}/${ebuild}"
+        local search_path="${EXPECTED_EBUILDS_ROOT}/${EXPECTED_EBUILDS_SUBDIR}"
+        local EXPECTED="${search_path}/${ebuild}"
         local ACTUAL="${MAVEN_OVERLAY_DIR}/${ebuild}"
         compare_ebuilds
     done

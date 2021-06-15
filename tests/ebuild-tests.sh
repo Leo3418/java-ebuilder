@@ -17,10 +17,15 @@ SRC_ROOT="${SRC_ROOT:-".."}"
 # The directory containing test cases
 TEST_CASES_DIR="${TEST_CASES_DIR:-"${SRC_ROOT}/tests/resources/ebuild-tests/test-cases"}"
 
-# The directory containing expected output ebuilds.  The layout of ebuilds in
-# this directory should be the same as how they would appear in a normal
-# Portage overlay.
-EXPECTED_EBUILDS_DIR="${EXPECTED_EBUILDS_DIR:-"${SRC_ROOT}/tests/resources/ebuild-tests/expected-ebuilds/default"}"
+# The root directory of all directories containing expected output ebuilds.
+# For each subdirectory in this directory, the layout of ebuilds in it should
+# be the same as how they would appear in a normal ebuild repository.
+EXPECTED_EBUILDS_ROOT="${EXPECTED_EBUILDS_ROOT:-"${SRC_ROOT}/tests/resources/ebuild-tests/expected-ebuilds"}"
+
+# The name of the default subdirectory under EXPECTED_EBUILDS_ROOT where
+# expected ebuilds will be searched.  The layout of ebuilds in this directory
+# should be the same as how they would appear in a normal ebuild repository.
+EXPECTED_EBUILDS_SUBDIR="default"
 
 # The directory containing ebuild repositories used by test cases
 TEST_REPOS_DIR="${TEST_REPOS_DIR:-"${SRC_ROOT}/tests/resources/repos"}"
@@ -41,8 +46,10 @@ Each FILE should define in Bash syntax:
   addition to the repositories used by the current system, where each
   repository is identified by the name of the directory containing it under
   ${TEST_REPOS_DIR}
-- Optionally, a local EXPECTED_EBUILDS_DIR variable to override its default
-  value (${EXPECTED_EBUILDS_DIR})
+- Optionally, a local EXPECTED_EBUILDS_SUBDIR variable to specify the name of
+  the subdirectory where ebuilds listed in EBUILD_PATHS are searched under
+  ${EXPECTED_EBUILDS_ROOT}
+  (The default value for this variable is '${EXPECTED_EBUILDS_SUBDIR}')
 
 With no FILE, run all test cases under ${TEST_CASES_DIR}.
 

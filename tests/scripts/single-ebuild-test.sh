@@ -6,12 +6,14 @@
 source "${SRC_ROOT}/tests/scripts/compare-ebuilds.sh"
 source "${SRC_ROOT}/tests/scripts/movl-mock.sh"
 
-# Initialize the REPOS environment variable from the list of ebuild
-# repositories used by the system, and any custom repositories used for the
+# Initialize the REPOS environment variable with the path to the Gentoo
+# repository installed on the system, and any custom repositories used for the
 # current test case specified by the TEST_REPOS environment variable.
 init_repos() {
     local portage_repos
-    portage_repos=$(portageq get_repo_path / $(portageq get_repos /))
+    # Use only the Gentoo repository to avoid discrepancies in generated
+    # ebuilds caused by additional custom repositories installed on the system
+    portage_repos="$(portageq get_repo_path / gentoo)"
     # Change new lines to spaces
     portage_repos=$(tr '\n' ' ' <<< "${portage_repos}")
 

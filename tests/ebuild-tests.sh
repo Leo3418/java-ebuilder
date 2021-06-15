@@ -43,7 +43,7 @@ Each FILE should define in Bash syntax:
   of paths to ebuilds to be verified relative to the overlay's root
 - Optionally, a local TEST_REPOS variable containing a whitespace-separated
   list of ebuild repositories that should be used by the test case, in
-  addition to the repositories used by the current system, where each
+  addition to the Gentoo repository on the current system, where each
   repository is identified by the name of the directory containing it under
   ${TEST_REPOS_DIR}
 - Optionally, a local EXPECTED_EBUILDS_SUBDIR variable to specify the name of

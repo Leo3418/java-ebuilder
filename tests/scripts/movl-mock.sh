@@ -6,7 +6,7 @@
 CLASSPATH="${CLASSPATH:-"${SRC_ROOT}/target/classes"}"
 
 # The command to run java-ebuilder
-JAVA_EBUILDER="java -classpath ${CLASSPATH} org.gentoo.java.ebuilder.Main" 
+JAVA_EBUILDER="java -classpath ${CLASSPATH} org.gentoo.java.ebuilder.Main"
 
 # The look-up table's path
 LUTFILE="${SRC_ROOT}/scripts/resources/resources/LUT"

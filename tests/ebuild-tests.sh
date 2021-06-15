@@ -15,12 +15,12 @@
 SRC_ROOT="${SRC_ROOT:-".."}"
 
 # The directory containing test cases
-TEST_CASES_DIR="${SRC_ROOT}/tests/resources/test-cases"
+TEST_CASES_DIR="${TEST_CASES_DIR:-"${SRC_ROOT}/tests/resources/ebuild-tests/test-cases"}"
 
 # The directory containing expected output ebuilds.  The layout of ebuilds in
 # this directory should be the same as how they would appear in a normal
 # Portage overlay.
-EXPECTED_EBUILDS_DIR="${SRC_ROOT}/tests/resources/expected-ebuilds"
+EXPECTED_EBUILDS_DIR="${EXPECTED_EBUILDS_DIR:-"${SRC_ROOT}/tests/resources/ebuild-tests/expected-ebuilds/default"}"
 
 # The directory used to store temporary test files
 TEST_TMPDIR="$(mktemp -d)"

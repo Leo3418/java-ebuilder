@@ -1,0 +1,11 @@
+local TEST_REPOS="ebuild-var-expansions"
+local EXPECTED_EBUILDS_SUBDIR="ebuild-var-expansions"
+
+MAVEN_ARTS="\
+    com.squareup.okhttp3:okhttp:4.8.1 \
+    com.squareup.okhttp3:okhttp:4.9.1 \
+"
+EBUILD_PATHS="\
+    app-maven/okhttp/okhttp-4.8.1.ebuild \
+    app-maven/okhttp/okhttp-4.9.1.ebuild \
+"

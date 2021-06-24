@@ -25,6 +25,11 @@ public class Config {
     private Path cacheFile = Paths.get(System.getProperty("user.home"),
             ".java-ebuilder/cache");
     /**
+     * Path to directory for new ebuild metadata cache files.
+     */
+    private Path ebuildMetadataDir = Paths.get(System.getProperty("user.home"),
+            ".java-ebuilder/ebuild-metadata");
+    /**
      * URI that goes to pre-compiled Maven Jar.
      */
     private URI binjarUri;
@@ -155,6 +160,24 @@ public class Config {
      */
     public void setCacheFile(final Path cacheFile) {
         this.cacheFile = cacheFile;
+    }
+
+    /**
+     * Getter for {@link #ebuildMetadataDir}.
+     *
+     * @return {@link #ebuildMetadataDir}
+     */
+    public Path getEbuildMetadataDir() {
+        return ebuildMetadataDir;
+    }
+
+    /**
+     * Setter for {@link #ebuildMetadataDir}.
+     *
+     * @param ebuildMetadataDir {@link #ebuildMetadataDir}
+     */
+    public void setEbuildMetadataDir(final Path ebuildMetadataDir) {
+        this.ebuildMetadataDir = ebuildMetadataDir;
     }
 
     /**

@@ -25,9 +25,9 @@ jobs:
     - name: Set up master ::gentoo
       run: |
         ./.github/workflow-scripts/setup-master-gentoo.sh
-    - name: Set up portageq
+    - name: Set up Portage
       run: |
-        ./.github/workflow-scripts/setup-portageq.sh
+        ./.github/workflow-scripts/setup-portage.sh
     - name: Test Maven project
       run: |
         mvn -q test

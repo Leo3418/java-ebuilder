@@ -2,14 +2,20 @@ package org.gentoo.java.ebuilder.portage;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +23,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -113,6 +120,10 @@ public class PortageParser {
      */
     private final Map<String, Integer> eclassesCounts = new HashMap<>(10);
     /**
+     * Path to directory for new ebuild metadata cache files.
+     */
+    private Path ebuildMetadataDir;
+    /**
      * Number of processed categories. Updated during parsing the tree.
      */
     private int processedCategories;
@@ -138,6 +149,8 @@ public class PortageParser {
         processedPackages = 0;
         processedEbuilds = 0;
         eclassesCounts.clear();
+
+        ebuildMetadataDir = config.getEbuildMetadataDir();
 
         for (Path portageTree : config.getPortageTree()) {
             config.getStdoutWriter().println("Parsing portage tree @ "
@@ -364,7 +377,27 @@ public class PortageParser {
             slot = processSlot(slot, ebuildMetadata);
         }
         else {
-            slot = processSlot(slot, pv, variables);
+            final String metadataRelativePath =
+                    ebuild.getParentFile().getAbsolutePath().substring(1);
+            final Path generatedEbuildMetadata = ebuildMetadataDir.resolve(
+                    metadataRelativePath + "-" + version);
+            /*
+             * If the metadata is up-to-date, then it does not need to be
+             * regenerated. There are two ways of checking this:
+             * 1. Depend on egencache's cache validity check
+             * 2. Read the MD5 checksum in the metadata and compare it with the
+             *    corresponding ebuild's MD5. The metadata is outdated if and
+             *    only if the checksums do not match
+             * The former approach has significant overhead that causes very
+             * long program runtime because it unconditionally creates a new
+             * egencache process even if the metadata is up-to-date. The latter
+             * way is more preferable since reading, computing and comparing
+             * MD5 checksums are very fast operations.
+             */
+            if (ebuildMetadataCacheMiss(generatedEbuildMetadata, ebuild)) {
+                generateEbuildMetadata(portageTree, category + "/" + pkg);
+            }
+            slot = processSlot(slot, generatedEbuildMetadata);
         }
 
         if (mavenId != null) {
@@ -423,6 +456,199 @@ public class PortageParser {
         for (final File ebuild : ebuilds) {
             parseEbuild(ebuild);
             processedEbuilds++;
+        }
+    }
+
+    /**
+     * Returns the MD5 checksum for a file.
+     *
+     * @param file file whose MD5 checksum is queried
+     *
+     * @return MD5 checksum in hex string with all letters in lower case
+     */
+    private String getMD5Checksum(final File file) {
+        final MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+        } catch (final NoSuchAlgorithmException ex) {
+            throw new AssertionError("MD5 is an algorithm provided by every "
+                    + "implementation of Java but is not available here", ex);
+        }
+
+        try (final InputStream ebuildStream = new FileInputStream(file)) {
+            final byte[] buf = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = ebuildStream.read(buf)) > 0) {
+                messageDigest.update(buf, 0, bytesRead);
+            }
+        } catch (final FileNotFoundException ex) {
+            throw new RuntimeException("Could not find file " + file, ex);
+        } catch (final IOException ex) {
+            throw new RuntimeException("Failed to read file " + file, ex);
+        }
+
+        final byte[] rawChecksum = messageDigest.digest();
+        return new BigInteger(1, rawChecksum).toString(16);
+    }
+
+    /**
+     * Returns whether a metadata cache file for an ebuild is outdated. If the
+     * specified metadata cache file path does not point to an existing file,
+     * then the cache will be regarded as outdated.
+     *
+     * @param metadata metadata cache file path
+     * @param ebuild   ebuild concerned by the metadata cache file
+     *
+     * @return whether there is a cache miss for the ebuild with the cache
+     */
+    private boolean ebuildMetadataCacheMiss(final Path metadata,
+            final File ebuild) {
+        if (!Files.exists(metadata)) {
+            return true;
+        }
+
+        final List<String> metadataEntries;
+        try {
+            metadataEntries = Files.readAllLines(metadata);
+        } catch (final IOException ex) {
+            throw new RuntimeException("Failed to read ebuild metadata "
+                    + metadata, ex);
+        }
+
+        final String checksumLinePrefix = "_md5_=";
+        String expectedChecksum = null;
+        // As of Portage 3.0.20, the MD5 checksum is in the last line of
+        // the metadata file, so read backwards for performance
+        for (int i = metadataEntries.size() - 1;
+             expectedChecksum == null && i >= 0; i--) {
+            final String metadataEntry = metadataEntries.get(i);
+            if (metadataEntry.startsWith(checksumLinePrefix)) {
+                expectedChecksum =
+                        metadataEntry.substring(checksumLinePrefix.length());
+            }
+        }
+
+        final String actualChecksum = getMD5Checksum(ebuild);
+        // actualChecksum guaranteed to be non-null
+        return !actualChecksum.equals(expectedChecksum);
+    }
+
+    /**
+     * Returns the name of an ebuild repository.
+     *
+     * @param portageTree ebuild repository path
+     *
+     * @return name of the ebuild repository
+     */
+    private String getPortageTreeRepoName(final Path portageTree) {
+        final Path repoNamePath = portageTree.resolve(Paths.get(
+                "profiles", "repo_name"));
+        try {
+            return Files.lines(repoNamePath).findFirst().orElseThrow(() ->
+                    new IllegalStateException(repoNamePath + " seems to be an "
+                            + "empty file, could not read repository name "
+                            + "from it"));
+        } catch (final IOException ex) {
+            throw new RuntimeException("Failed to read repository name from "
+                    + repoNamePath, ex);
+        }
+    }
+
+    /**
+     * Returns a list of lines for an ebuild repository entry in
+     * {@code /etc/portage/repos.conf}.
+     *
+     * @param portageTree ebuild repository path
+     *
+     * @return list of lines for the repository in Portage config
+     */
+    private List<String> getReposConfContents(final Path portageTree) {
+        final String repoName = getPortageTreeRepoName(portageTree);
+        final List<String> contents = new ArrayList<>(2);
+        contents.add("[" + repoName + "]");
+        contents.add("location = " + portageTree);
+        return contents;
+    }
+
+    /**
+     * Generates metadata cache for all ebuilds for the specified atom.
+     * {@code atom} will be passed to {@code egencache(1)} as the
+     * {@code [ATOM]} argument of its {@code --update} option.
+     *
+     * @param portageTree path to the repository containing the ebuilds for the
+     *                    specified atom
+     * @param atom        atom of the package
+     */
+    private void generateEbuildMetadata(final Path portageTree,
+            final String atom) {
+        // Create a fake repos.conf file for the ebuild repository
+        final Path egencacheTempDir;
+        try {
+            egencacheTempDir = Files.createTempDirectory("egencache");
+        } catch (final IOException ex) {
+            throw new RuntimeException("Failed to create temporary directory "
+                    + "for egencache", ex);
+        }
+        final Path portageConfigRoot = egencacheTempDir.resolve(Paths.get(
+                "etc", "portage"));
+        portageConfigRoot.toFile().mkdirs();
+        final Path reposConf = portageConfigRoot.resolve("repos.conf");
+        try {
+            Files.write(reposConf, getReposConfContents(portageTree));
+        } catch (final IOException ex) {
+            throw new RuntimeException("Failed to write to repo config file "
+                    + reposConf, ex);
+        }
+
+        // Create the destination directory of metadata cache files if needed
+        final File ebuildMetadataDirFile = ebuildMetadataDir.toFile();
+        if (!ebuildMetadataDirFile.exists()) {
+            ebuildMetadataDirFile.mkdirs();
+        }
+
+        // Call egencache
+        final ProcessBuilder processBuilder = new ProcessBuilder(
+                "egencache",
+                "--cache-dir=" + ebuildMetadataDir,
+                "--config-root=" + egencacheTempDir,
+                "--external-cache-only",
+                "--repo=" + getPortageTreeRepoName(portageTree),
+                // Tolerate any ebuild without manifest because only the
+                // ebuild itself is needed to generate metadata cache
+                "--strict-manifests", "n",
+                "--update",
+                atom
+        );
+        final Process process;
+        try {
+            process = processBuilder.start();
+        } catch (final IOException ex) {
+            throw new RuntimeException("Failed to run egencache command", ex);
+        }
+        try {
+            final int timeoutSeconds = 60;
+            if (!process.waitFor(timeoutSeconds, TimeUnit.SECONDS)) {
+                throw new RuntimeException("egencache command did not finish "
+                        + "within " + timeoutSeconds + " seconds");
+            }
+        } catch (final InterruptedException ex) {
+            throw new RuntimeException("egencache command had not finished "
+                    + "before the thread waiting for it was interrupted");
+        }
+        if (process.exitValue() != 0) {
+            try (final BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getErrorStream()))) {
+                StringBuilder stderrBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stderrBuilder.append(System.lineSeparator()).append(line);
+                }
+                throw new RuntimeException("Failed to run egencache command: "
+                        + stderrBuilder);
+            } catch (final IOException ex) {
+                throw new RuntimeException(
+                        "Failed to read egencache command error output", ex);
+            }
         }
     }
 

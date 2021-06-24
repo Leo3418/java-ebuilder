@@ -30,3 +30,6 @@ Refreshing cache:
 Common:
 --cache-file                       location of cache file (default is
                                    ~/.java-ebuilder/cache)
+--ebuild-metadata-dir              path to directory to store generated ebuild
+                                   metadata (default is
+                                   ~/.java-ebuilder/ebuild-metadata)

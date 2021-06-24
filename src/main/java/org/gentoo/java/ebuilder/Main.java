@@ -288,6 +288,11 @@ public class Main {
                     config.setCacheFile(Paths.get(args[i]).toAbsolutePath().
                             normalize());
                     break;
+                case "--ebuild-metadata-dir":
+                    i++;
+                    config.setEbuildMetadataDir(Paths.get(args[i]).
+                            toAbsolutePath().normalize());
+                    break;
                 case "--refresh-cache":
                 case "-c":
                     config.setRefreshCache(true);

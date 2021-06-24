@@ -254,8 +254,10 @@ public class PortageParser {
         final String pkg = ebuild.getParentFile().getName();
         final String version = filename.substring(pkg.length() + 1);
         final Map<String, String> variables = new HashMap<>(20);
-        final Path ebuildMetadata = Paths.get(ebuild.getParent(), "..", "..",
-                "metadata", "md5-cache", category, filename).normalize();
+        final Path portageTree =
+                Paths.get(ebuild.getParent(), "..", "..").normalize();
+        final Path ebuildMetadata = portageTree.resolve(Paths.get(
+                "metadata", "md5-cache", category, filename));
         List<String> eclasses = null;
         String slot = "0";
         String useFlag = null;

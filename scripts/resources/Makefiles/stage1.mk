@@ -4,6 +4,13 @@
 ${STAGE2_MAKEFILE}: ${PRE_STAGE1_CACHE}
 	mkdir -p ${STAGE1_DIR}
 	mkdir -p "$(shell dirname "$@")"
+
+	# Set up stage1 ebuild repository with minimal metadata files required by
+	# java-ebuilder and egencache
+	mkdir "${STAGE1_DIR}/profiles"
+	echo "stage1" > "${STAGE1_DIR}/profiles/repo_name"
+	echo "app-maven" > "${STAGE1_DIR}/profiles/categories"
+
 	CUR_STAGE_DIR="$(shell echo ${STAGE1_DIR})" CUR_STAGE=stage1\
 		CACHE_TIMESTAMP="$(shell echo ${CACHE_TIMESTAMP})"\
 		GENTOO_CACHE="$(shell echo ${PRE_STAGE1_CACHE})"\

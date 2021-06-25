@@ -3,6 +3,7 @@ ${CACHE_TIMESTAMP}:
 
 ${PRE_STAGE1_CACHE}.raw: ${CACHE_TIMESTAMP}
 	args=" --refresh-cache";\
+	args="$${args} --ebuild-metadata-dir ${EBUILD_METADATA_CACHE}";\
 	for repo in ${REPOS}; do\
 		args="$${args} -t $${repo}";\
 	done;\
@@ -13,6 +14,7 @@ ${PRE_STAGE1_CACHE}: ${PRE_STAGE1_CACHE}.raw
 
 ${POST_STAGE1_CACHE}.raw: ${STAGE2_MAKEFILE}
 	args=" --refresh-cache -t ${STAGE1_DIR}";\
+	args="$${args} --ebuild-metadata-dir ${EBUILD_METADATA_CACHE}";\
 	for repo in ${REPOS}; do\
 		args="$${args} -t $${repo}";\
 	done;\

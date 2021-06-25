@@ -40,6 +40,7 @@ CACHE_DIR=$(shell printf "%q\n" ${CACHEDIR})
 CACHE_TIMESTAMP?=${CACHE_DIR}/cache.stamp
 PRE_STAGE1_CACHE?=${CACHE_DIR}/pre-stage1-cache
 POST_STAGE1_CACHE?=${CACHE_DIR}/post-stage1-cache
+EBUILD_METADATA_CACHE?=${CACHE_DIR}/ebuild-metadata
 
 # Alias for the java-ebuilder command
 # to allow for using a different java-ebuilder JAR for purposes like testing

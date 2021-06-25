@@ -191,6 +191,7 @@ gebd() {
         tsh_log "java-ebuilder: generage ebuild files for ${MID} in ${CUR_STAGE}"
         ${JAVA_EBUILDER} -p "${POMDIR}"/${M}.pom -e "${cur_stage_ebd}" -g --workdir "${POMDIR}" \
                       -u ${SRC_URI} --slot ${SLOT:-0} --keywords ~amd64 \
+                      --ebuild-metadata-dir "${EBUILD_METADATA_CACHE}" \
                       --cache-file "${CACHEDIR}"/${CUR_STAGE}-cache
         if [[ "$?" -eq 0 ]]; then
             tsh_log "java-ebuilder Returns $?"
@@ -237,6 +238,7 @@ gebd() {
     target_line+="\tmkdir -p \"$(dirname "${final_stage_ebd}")\"\n"
     target_line+="\t${JAVA_EBUILDER} -p \"${POMDIR}\"/${M}.pom -e \"${final_stage_ebd}\" -g --workdir \"${POMDIR}\""
     target_line+=" -u ${SRC_URI} --slot ${SLOT:-0} --keywords ~amd64"
+    target_line+=" --ebuild-metadata-dir \"${EBUILD_METADATA_CACHE}\""
     target_line+=" --cache-file \"${CACHEDIR}\"/post-${CUR_STAGE}-cache"
     if [[ ${SRC_URI} = *-sources.jar ]]; then
         # inherit java-maven-central to handle src_unpack

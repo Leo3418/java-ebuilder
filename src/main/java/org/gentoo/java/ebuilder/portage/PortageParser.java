@@ -54,17 +54,6 @@ public class PortageParser {
     private static final Pattern PATTERN_EBUILD_NAME = Pattern.compile(
             "^(\\S+?)-([^-]+)(?:-(r\\d+))?\\.ebuild$");
     /**
-     * Pattern for parsing SLOT with bash substring.
-     */
-    private static final Pattern PATTERN_SLOT_SUBSTRING = Pattern.compile(
-            "^\\$\\{PV:(\\d+):(\\d+)\\}$");
-    /**
-     * Pattern for parsing version component range in SLOT.
-     */
-    private static final Pattern PATTERN_SLOT_VERSION_COMPOPONENT_RANGE
-            = Pattern.compile(
-                    "^\\$\\(get_version_component_range (\\d+)-(\\d+)\\)$");
-    /**
      * Pattern for checking whether the line contains variable declaration. It
      * does not handle correctly variables spread across several lines but we
      * most probably do not care about these.
@@ -683,64 +672,6 @@ public class PortageParser {
         } catch (final IOException ex) {
             throw new RuntimeException("Failed to read ebuild", ex);
         }
-        return result;
-    }
-
-    /**
-     * Processes various instructions in SLOT string.
-     *
-     * @param slot      SLOT string
-     * @param pv        PV variable
-     * @param variables map of collected variables and their values
-     *
-     * @return processed SLOT string
-     */
-    private String processSlot(final String slot, final String pv,
-            final Map<String, String> variables) {
-        String result = slot.replaceAll("\\$(\\{PV\\}|PV)", pv);
-
-        if (result.indexOf('$') != -1) {
-            for (final Map.Entry<String, String> variable
-                    : variables.entrySet()) {
-                result = result.
-                        replace("$" + variable.getKey(), variable.getValue()).
-                        replace("${" + variable.getKey() + '}',
-                                variable.getValue());
-            }
-        }
-
-        if (result.indexOf('$') != -1) {
-            final Matcher matcher = PATTERN_SLOT_SUBSTRING.matcher(result);
-
-            if (matcher.matches()) {
-                final int start = Integer.parseInt(matcher.group(1), 10);
-                final int length = Integer.parseInt(matcher.group(2), 10);
-                result = pv.substring(start, start + length);
-            }
-        }
-
-        if (result.indexOf('$') != -1) {
-            final Matcher matcher
-                    = PATTERN_SLOT_VERSION_COMPOPONENT_RANGE.matcher(result);
-
-            if (matcher.matches()) {
-                final int start = Integer.parseInt(matcher.group(1), 10);
-                final int end = Integer.parseInt(matcher.group(2), 10);
-                final String[] parts = pv.split("\\.");
-                final StringBuilder sbResult = new StringBuilder(10);
-
-                for (int i = start; i <= end; i++) {
-                    if (sbResult.length() > 0) {
-                        sbResult.append('.');
-                    }
-
-                    sbResult.append(i <= parts.length ? parts[i - 1] : '0');
-                }
-
-                result = sbResult.toString();
-            }
-        }
-
         return result;
     }
 

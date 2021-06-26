@@ -40,7 +40,11 @@ CACHE_DIR=$(shell printf "%q\n" ${CACHEDIR})
 CACHE_TIMESTAMP?=${CACHE_DIR}/cache.stamp
 PRE_STAGE1_CACHE?=${CACHE_DIR}/pre-stage1-cache
 POST_STAGE1_CACHE?=${CACHE_DIR}/post-stage1-cache
-EBUILD_METADATA_CACHE?=${CACHE_DIR}/ebuild-metadata
+
+# ebuild metadata cache
+# Generating this cache can take a while, but it is highly reusable, so it is
+# both fine and preferable to not clean up this cache in the 'clean' target
+EBUILD_METADATA_CACHE?=${EROOT}/var/cache/java-ebuilder/ebuild-metadata
 
 # Alias for the java-ebuilder command
 # to allow for using a different java-ebuilder JAR for purposes like testing

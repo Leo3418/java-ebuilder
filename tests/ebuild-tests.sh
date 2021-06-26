@@ -67,6 +67,9 @@ init_tmpdir() {
     POMDIR="${TEST_TMPDIR}/poms"
     MAVEN_OVERLAY_DIR="${TEST_TMPDIR}/overlay"
     CACHEDIR="${TEST_TMPDIR}/cache"
+    # Clean up ebuild metadata cache with other cache files in tests to make
+    # sure each test case runs individually and does not interfere with others
+    EBUILD_METADATA_CACHE="${CACHEDIR}/ebuild-metadata-cache"
     STAGE1_DIR="${TEST_TMPDIR}/stage1"
     STAGE2_MAKEFILE="${STAGE1_DIR}/stage2.mk"
 

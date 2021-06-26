@@ -32,6 +32,7 @@ movl_mock() {
     eval "env \
         CACHEDIR=\"${CACHEDIR}\" \
         CONFIG=\"${CONFIG}\" \
+        EBUILD_METADATA_CACHE=\"${EBUILD_METADATA_CACHE}\" \
         HELPERS_ROOT=\"${HELPERS_ROOT}\" \
         JAVA_EBUILDER=\"${JAVA_EBUILDER}\" \
         LUTFILE=\"${LUTFILE}\" \

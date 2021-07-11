@@ -27,9 +27,9 @@ KEYWORDS="~amd64"
 # org.apache.httpcomponents:httpcore:4.4.13 -> >=app-maven/httpcore-4.4.13:0
 
 CDEPEND="
-	>=app-maven/httpcore-4.4.13:0
 	>=dev-java/commons-codec-1.15:0
 	>=dev-java/commons-logging-1.2:0
+	>=dev-java/httpcore-4.4.14:0
 "
 
 DEPEND="

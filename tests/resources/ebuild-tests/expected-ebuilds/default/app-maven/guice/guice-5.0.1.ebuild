@@ -25,11 +25,11 @@ KEYWORDS="~amd64"
 # aopalliance:aopalliance:1.0 -> >=dev-java/aopalliance-1.0:1
 # com.google.guava:guava:30.1-jre -> >=dev-java/guava-30.1:0
 # javax.inject:javax.inject:1 -> >=dev-java/javax-inject-1:0
-# org.ow2.asm:asm:9.1 -> >=dev-java/asm-9.1:9
+# org.ow2.asm:asm:9.1 -> >=dev-java/asm-9.2:9
 
 CDEPEND="
 	>=dev-java/aopalliance-1.0:1
-	>=dev-java/asm-9.1:9
+	>=dev-java/asm-9.2:9
 	>=dev-java/guava-30.1:0
 	>=dev-java/javax-inject-1:0
 "

@@ -4,7 +4,7 @@
 # Skeleton command:
 # java-ebuilder --generate-ebuild --workdir . --pom /tmp/java-ebuilder/poms/commons-lang3-3.12.0.pom --from-maven-central --download-uri https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0-sources.jar --binjar-uri https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar --slot 0 --keywords "~amd64" --ebuild commons-lang3-3.12.0.ebuild
 
-EAPI=7
+EAPI=8
 
 JAVA_PKG_IUSE="doc source test binary"
 MAVEN_ID="org.apache.commons:commons-lang3:3.12.0"

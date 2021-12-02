@@ -4,7 +4,7 @@
 # Skeleton command:
 # java-ebuilder --generate-ebuild --workdir . --pom /tmp/java-ebuilder/poms/spring-webmvc-5.3.8.pom --from-maven-central --download-uri https://repo1.maven.org/maven2/org/springframework/spring-webmvc/5.3.8/spring-webmvc-5.3.8-sources.jar --binjar-uri https://repo1.maven.org/maven2/org/springframework/spring-webmvc/5.3.8/spring-webmvc-5.3.8.jar --slot 0 --keywords "~amd64" --ebuild spring-webmvc-5.3.8.ebuild
 
-EAPI=7
+EAPI=8
 
 JAVA_PKG_IUSE="doc source test binary"
 MAVEN_ID="org.springframework:spring-webmvc:5.3.8"

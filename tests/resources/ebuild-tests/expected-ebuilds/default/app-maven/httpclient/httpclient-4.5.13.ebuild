@@ -4,7 +4,7 @@
 # Skeleton command:
 # java-ebuilder --generate-ebuild --workdir . --pom /tmp/java-ebuilder/poms/httpclient-4.5.13.pom --from-maven-central --download-uri https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13-sources.jar --binjar-uri https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar --slot 0 --keywords "~amd64" --ebuild httpclient-4.5.13.ebuild
 
-EAPI=7
+EAPI=8
 
 JAVA_PKG_IUSE="doc source test binary"
 MAVEN_ID="org.apache.httpcomponents:httpclient:4.5.13"

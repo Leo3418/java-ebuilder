@@ -4,7 +4,7 @@
 # Skeleton command:
 # java-ebuilder --generate-ebuild --workdir . --pom /tmp/java-ebuilder/poms/guava-30.1.1-jre.pom --from-maven-central --download-uri https://repo1.maven.org/maven2/com/google/guava/guava/30.1.1-jre/guava-30.1.1-jre-sources.jar --binjar-uri https://repo1.maven.org/maven2/com/google/guava/guava/30.1.1-jre/guava-30.1.1-jre.jar --slot 0 --keywords "~amd64" --ebuild guava-30.1.1.ebuild
 
-EAPI=7
+EAPI=8
 
 JAVA_PKG_IUSE="doc source test binary"
 MAVEN_ID="com.google.guava:guava:30.1.1-jre"

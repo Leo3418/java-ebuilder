@@ -4,7 +4,7 @@
 # Skeleton command:
 # java-ebuilder --generate-ebuild --workdir . --pom /tmp/java-ebuilder/poms/kotlin-spark-api-common-1.0.0-preview2.pom --from-maven-central --download-uri https://repo1.maven.org/maven2/org/jetbrains/kotlinx/spark/kotlin-spark-api-common/1.0.0-preview2/kotlin-spark-api-common-1.0.0-preview2-sources.jar --binjar-uri https://repo1.maven.org/maven2/org/jetbrains/kotlinx/spark/kotlin-spark-api-common/1.0.0-preview2/kotlin-spark-api-common-1.0.0-preview2.jar --slot 0 --keywords "~amd64" --ebuild kotlin-spark-api-common-1.0.0.ebuild
 
-EAPI=7
+EAPI=8
 
 JAVA_PKG_IUSE="doc source test binary"
 MAVEN_ID="org.jetbrains.kotlinx.spark:kotlin-spark-api-common:1.0.0-preview2"

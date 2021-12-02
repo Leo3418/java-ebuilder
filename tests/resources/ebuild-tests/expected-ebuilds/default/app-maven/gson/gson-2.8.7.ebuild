@@ -4,7 +4,7 @@
 # Skeleton command:
 # java-ebuilder --generate-ebuild --workdir . --pom /tmp/java-ebuilder/poms/gson-2.8.7.pom --from-maven-central --download-uri https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.7/gson-2.8.7-sources.jar --binjar-uri https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.7/gson-2.8.7.jar --slot 0 --keywords "~amd64" --ebuild gson-2.8.7.ebuild
 
-EAPI=7
+EAPI=8
 
 JAVA_PKG_IUSE="doc source test binary"
 MAVEN_ID="com.google.code.gson:gson:2.8.7"

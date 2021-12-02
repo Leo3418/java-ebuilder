@@ -4,7 +4,7 @@
 # Skeleton command:
 # java-ebuilder --generate-ebuild --workdir . --pom /tmp/java-ebuilder/poms/commons-io-2.9.0.pom --from-maven-central --download-uri https://repo1.maven.org/maven2/commons-io/commons-io/2.9.0/commons-io-2.9.0-sources.jar --binjar-uri https://repo1.maven.org/maven2/commons-io/commons-io/2.9.0/commons-io-2.9.0.jar --slot 0 --keywords "~amd64" --ebuild commons-io-2.9.0.ebuild
 
-EAPI=7
+EAPI=8
 
 JAVA_PKG_IUSE="doc source test binary"
 MAVEN_ID="commons-io:commons-io:2.9.0"

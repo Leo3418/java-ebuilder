@@ -26,8 +26,8 @@ KEYWORDS="~amd64"
 # org.jetbrains.kotlin:kotlin-stdlib:1.3.72 -> >=dev-java/kotlin-common-bin-1.3.72:0
 
 CDEPEND="
+	>=app-maven/okio-2.7.0:0
 	>=dev-java/kotlin-common-bin-1.3.72:0
-	>=dev-java/okio-2.7.0:0
 "
 
 DEPEND="

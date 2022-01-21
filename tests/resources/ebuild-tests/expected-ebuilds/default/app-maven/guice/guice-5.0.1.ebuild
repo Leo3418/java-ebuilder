@@ -30,7 +30,7 @@ KEYWORDS="~amd64"
 CDEPEND="
 	>=dev-java/aopalliance-1.0:1
 	>=dev-java/asm-9.2:9
-	>=dev-java/guava-30.1:0
+	>=dev-java/guava-30.1.1:0
 	>=dev-java/javax-inject-1:0
 "
 

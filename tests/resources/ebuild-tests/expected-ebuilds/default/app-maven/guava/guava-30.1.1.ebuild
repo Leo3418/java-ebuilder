@@ -30,10 +30,10 @@ KEYWORDS="~amd64"
 # org.checkerframework:checker-qual:3.8.0 -> >=app-maven/checker-qual-3.8.0:0
 
 CDEPEND="
-	>=app-maven/checker-qual-3.8.0:0
-	>=app-maven/failureaccess-1.0.1:0
 	>=app-maven/listenablefuture-9999.0:0
-	>=dev-java/error-2.5.1:prone_annotations
+	>=dev-java/checker-framework-qual-3.14.0:0
+	>=dev-java/error-prone-annotations-2.7.1:0
+	>=dev-java/failureaccess-30.1.1:0
 	>=dev-java/j2objc-annotations-1.3:0
 	>=dev-java/jsr305-3.0.2:0
 "
@@ -51,6 +51,6 @@ BDEPEND="app-arch/unzip"
 
 S="${WORKDIR}"
 
-JAVA_GENTOO_CLASSPATH="jsr305,error-prone_annotations,failureaccess,listenablefuture,j2objc-annotations,checker-qual"
+JAVA_GENTOO_CLASSPATH="jsr305,error-prone-annotations,failureaccess,listenablefuture,j2objc-annotations,checker-framework-qual"
 JAVA_SRC_DIR="src"
 JAVA_BINJAR_FILENAME="${P}-bin.jar"
